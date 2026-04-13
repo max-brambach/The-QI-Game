@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>QI Quest: The Microscope Chronicles</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="gc">
+  <canvas id="canvas" tabindex="0"></canvas>
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;">
+
+    <!-- Title -->
+    <div id="title">
+      <div class="pm">🔬</div>
+      <h1>QI QUEST</h1>
+      <h2>THE MICROSCOPE CHRONICLES</h2>
+      <p style="color:#f0c87d">✦ Cold Spring Harbor Laboratory ✦</p>
+      <br>
+      <p>The legendary microscope has been disassembled!</p>
+      <p>Find <strong style="color:#f0c87d">16 parts</strong> hidden with instructors &amp; vendors across campus</p>
+      <p>Then face <strong style="color:#db7d7d">Jennifer</strong> — the final boss!</p>
+      <br>
+      <p style="color:#7ddb7d55;font-size:9px">ARROWS / WASD to move &nbsp;|&nbsp; E / SPACE to interact &nbsp;|&nbsp; Enter buildings to explore</p>
+      <button id="stbtn" onclick="startGame()">▶ PRESS START</button>
+    </div>
+
+
+    <!-- Inventory -->
+    <div id="inv" style="pointer-events:all;">
+      <h3>🔬 PARTS</h3>
+      <div id="slots"></div>
+    </div>
+
+    <!-- Status -->
+    <div id="status">
+    </div>
+
+    <div id="snack-count" style="position:absolute;top:8px;left:50%;transform:translateX(-50%);color:#4a9e4a88;font-size:9px;font-family:monospace;letter-spacing:1px;pointer-events:none;">🍌 0/12</div>
+    <!-- Cooldown bar -->
+
+    <!-- Notification -->
+    <div id="notif"></div>
+
+    <!-- Minimap -->
+    <canvas id="mm" width="90" height="90"></canvas>
+
+    <!-- Dialog -->
+    <div id="dlg" style="pointer-events:all;">
+      <div id="dlg-name"></div>
+      <div id="dlg-text"></div>
+      <div id="dlg-choices"></div>
+    </div>
+
+    <!-- Riddle -->
+    <div id="rdl" style="pointer-events:all;">
+      <div id="rdl-title"></div>
+      <div id="rdl-prize"></div>
+      <div id="rdl-q"></div>
+      <div id="rdl-answers"></div>
+      <div id="rdl-fb"></div>
+      <button id="rdl-cont" onclick="closeRiddle()">CONTINUE →</button>
+    </div>
+
+    <!-- Win -->
+    <div id="win" style="pointer-events:all;">
+      <h1>⚡ CONGRATULATIONS! ⚡</h1>
+      <h2>QUANTITATIVE IMAGING MASTER</h2>
+      <div id="cert">
+        <h2>🔬 QI CERTIFICATE OF ACHIEVEMENT 🔬</h2>
+        <p>This certifies that</p>
+        <p style="color:#7ddb7d;font-size:15px;letter-spacing:2px">MICROSCOPIST EXTRAORDINAIRE</p>
+        <p>has assembled the CSHL Legendary Microscope &amp; mastered:</p>
+        <p style="color:#9ee89e">Köhler Illumination · Nyquist Sampling · PSF &amp; Abbe Diffraction</p>
+        <p style="color:#9ee89e">Confocal Principles · Fluorophore Physics · TIRF · Super-Resolution</p>
+        <p style="color:#9ee89e">Photobleaching · Image Segmentation · Light Sheet · AI Denoising</p>
+        <br>
+        <p style="color:#f0c87d">— Dr. Jennifer Waters, Harvard Medical School —</p>
+        <p style="color:#7ddb7d44;font-size:9px">QI at CSHL · Quantitative Imaging: From Acquisition to Analysis</p>
+      </div>
+      <p style="color:#7ddb7d55;font-size:10px">Press F5 to play again</p>
+    </div>
+
+    <!-- Touch D-pad -->
+    <div id="dpad">
+      <div class="dp" id="dp-u" ontouchstart="tpush('ArrowUp')" ontouchend="tpop('ArrowUp')" onmousedown="tpush('ArrowUp')" onmouseup="tpop('ArrowUp')">▲</div>
+      <div class="dp" id="dp-d" ontouchstart="tpush('ArrowDown')" ontouchend="tpop('ArrowDown')" onmousedown="tpush('ArrowDown')" onmouseup="tpop('ArrowDown')">▼</div>
+      <div class="dp" id="dp-l" ontouchstart="tpush('ArrowLeft')" ontouchend="tpop('ArrowLeft')" onmousedown="tpush('ArrowLeft')" onmouseup="tpop('ArrowLeft')">◀</div>
+      <div class="dp" id="dp-r" ontouchstart="tpush('ArrowRight')" ontouchend="tpop('ArrowRight')" onmousedown="tpush('ArrowRight')" onmouseup="tpop('ArrowRight')">▶</div>
+    </div>
+    <div id="btn-a" ontouchstart="taction()" onmousedown="taction()">A<br><span style="font-size:8px">ACT</span></div>
+    <!-- Help -->
+    <div id="help">ARROWS/WASD: Move &nbsp; E/SPACE: Interact &nbsp; 🍪 Find snacks!</div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/map.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/engine.js"></script>
+</body>
+</html>

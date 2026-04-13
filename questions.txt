@@ -1,0 +1,403 @@
+QI Quest — Complete NPC Reference
+17 NPCs total · 16 collectible parts
+
+
+1. JENNIFER [BOSS]
+Reward: QI Certificate
+
+When all parts collected:
+
+So. You assembled the microscope. I have four questions. Answer them all correctly for your certificate.
+
+After completing:
+
+Well done. The certificate speaks for itself.
+
+Q1: You image a fluorescent sample with a 60x/1.4 NA objective (emission 510nm). According to the Nyquist criterion, what is the maximum pixel size you should use at the camera?
+
+❌ A) 510nm, one wavelength per pixel
+✅ B) ~90nm in sample space
+❌ C) ~222nm, the approximate PSF FWHM
+❌ D) As small as possible
+
+Explanation: Rayleigh lateral resolution = 0.61*510/1.4) ≈ 222nm. Nyquist requires sampling at ≥2x the highest frequency, so pixel ~90nm in sample space. Undersampling aliases structure; oversampling wastes signal and increases bleaching.
+
+Q2: When writing a paper, which details about your objective lens do you need to report?
+❌ A) Serial number
+✅ B) Manufacturer, correction class, magnification, NA, and immersion medium
+❌ C) Magnification and focus settings
+❌ D) Magnification only — it determines resolution
+Explanation: Magnification alone is nearly meaningless for reproducibility — two 60× objectives can have vastly different optical performance. NA determines resolution and light collection, immersion medium must match your sample mounting, and manufacturer and correction class let another lab source the exact same optic. Serial number is too much; focus settings are an acquisition detail, not a lens property.
+
+
+Q3: You fit a Gaussian to a single fluorescent bead and measure the PSF width. Would a dimmer bead give a different fitted PSF width even if the optics are identical?
+❌ A) No — the PSF is a property of the optics alone, so bead brightness is irrelevant
+❌ B) No — a dimmer bead would give a narrower PSF because fewer photons spread less
+✅ C) Not necessarily wider or narrower, but less precisely determined — fewer photons mean noisier intensity values and a less reliable Gaussian fit
+❌ D) Yes, always wider — dimmer beads emit lower energy photons which diffract more strongly at the objective
+Explanation: The true PSF is a property of the optics, not the fluorophore. But measuring it requires fitting a model to noisy data, and noise is shot-noise limited — scaling with √N photons. With fewer photons, the low-intensity rings of the PSF are buried in noise and the Gaussian fit becomes uncertain. The estimated width could land high or low — what decreases is your confidence in the measurement. This is the same principle underlying SMLM: more photons don't change the PSF, they let you characterize it more precisely.
+Q4: You choose a pixel dwell time of 4µs on a confocal with a 63× objective (NA 1.4, 488nm). You need a new frame every 5 seconds. Using Nyquist-sampled pixels, what is the maximum square FOV you can image?
+❌ A) 256×256 pixels (~22×22µm)
+❌ B) 512×512 pixels (~44×44µm)
+✅ C) 1024×1024 pixels (~89×89µm)
+❌ D) 2048×2048 pixels (~178×178µm)
+Explanation: First calculate the maximum number of pixels: 5,000,000µs / 4µs = 1,250,000 pixels. The largest square grid that fits is 1024×1024 (1,048,576 pixels) — 2048×2048 would require 16.7 seconds. Then convert to physical size: Nyquist pixel size = (λ/2NA)/2 = (488/2×1.4)/2 ≈ 87nm. So 1024 × 87nm ≈ 89µm per side. Both steps are necessary — pixel budget sets the grid size, Nyquist converts it to physical dimensions.
+
+Q5: One final question — and this one is the most important. Cats or dogs?
+
+❌ A) Dogs
+✅ B) Cats 
+❌ C) Both equally
+❌ D) Neither, I only care about cells
+
+Explanation: Cats. Obviously. Independent, curious, and statistically overrepresented in microscopy labs worldwide. Congratulations — you have answered correctly on every count.
+
+
+2. TALLEY [INSTRUCTOR] 
+Reward: Digital Camera
+
+Greeting:
+
+Hey, I'm Talley! Answer this and the camera is yours.
+
+After completing:
+
+Exactly right! You need to understand more than just the microscope to be a good microscopist.
+
+Question: You increase laser power but fluorescence intensity plateaus but the detector is not saturating. What is the most likely explanation?
+❌ A) Photobleaching
+✅ B) Ground state depletion
+❌ C) Dirty objective
+❌ D) Stimulated emission
+Explanation: Fluorescence requires a fluorophore in the ground state to absorb a photon. At high laser powers, molecules are re-excited so rapidly that most of the population is trapped in the excited or triplet state — the ground state is depleted. With fewer molecules available to absorb, additional laser power yields no additional signal. Detector saturation is the tempting wrong answer, but can be ruled out by checking the raw pixel values.
+
+
+3. BETH [INSTRUCTOR]
+Reward: Segmentation Software
+
+Greeting:
+
+Hi! Answer this segmentation question and the segmentation software is yours!
+
+After completing:
+
+Great work! Remember: measure, don't eyeball.
+
+Question: You're segmenting touching nuclei getting merged objects. Which of the following is a good strategy?
+
+✅ A) Watershed on the distance transform of the binary mask
+❌ B) Use a larger Gaussian smoothing filter before thresholding
+❌ C) Increase image brightness to reveal separation
+❌ D) Lower the minimum diameter threshold to split objects
+
+Explanation: Watershed on the distance transform treats the distance-from-background as topography, finding object centres and drawing watershed lines between them. It reliably separates touching spherical nuclei even with similar intensities. Lowering diameter or blurring makes things worse — you need the geometric separation information.
+
+
+4. FLORIAN [INSTRUCTOR]
+Reward: Denoising Software
+
+Greeting:
+
+Guten Tag! I'm Florian. Deep learning can denoise microscopy images dramatically. Answer this and the denoising software is yours.
+
+After completing:
+
+Wunderbar! The future of imaging is computational.
+
+Question: You train a U-Net to restore noisy confocal images. Training loss steadily decreases but validation loss plateaus then rises. What should you do?
+
+❌ A) Train for more epochs. The model hasn't converged yet
+✅ B) Apply early stopping, add data augmentation, and possibly reduce model capacity
+❌ C) Increase the learning rate to escape the local minimum
+❌ D) Switch to a different model architecture
+
+Explanation: Classic overfitting! The model memorises training noise instead of learning generalizable restoration. Solutions: early stopping at the validation minimum, aggressive augmentation (random flips, rotations, intensity jitter), dropout layers, or a smaller model. In microscopy data is scarce — augmentation is especially important.
+
+
+5. HUNTER [INSTRUCTOR]
+Reward: Object Classifier
+
+Greeting:
+
+Quantitative is the key word. Tell me about quantitative image analysis and this object classifier is yours.
+
+After completing:
+
+Solid! I’ll be on my flying machine.
+
+Question: When should you use rolling ball background subtraction instead of uniform background subtraction?
+❌ A) When your signal is very dim and you need to preserve as many photons as possible
+❌ B) When your background is uniformly low across the entire field
+✅ C) When background intensity varies spatially across the image, such as from autofluorescence gradients
+❌ D) When your cells are densely packed and leave no empty regions to sample background from
+
+
+Explanation: Uniform background subtraction assumes a single background value applies everywhere, valid when illumination is flat. Rolling ball fits a local estimate at every position, capturing slow spatial variation across the field. If your background is spatially uniform, use uniform subtraction; if it varies due to autofluorescence gradients, use rolling ball.
+
+
+
+6. DAMIAN [INSTRUCTOR]
+Reward: Colocalisation Software
+
+Greeting:
+
+Hi! I'm Damian, nice to meet you. Answer my spatial correlation question and the colocalization software is yours!
+
+After completing:
+
+Nice work! And remember: colocalization can only show that two things are close; not that they interact.
+
+Question: Which of the following correctly describes Manders' colocalization coefficients M1 and M2?
+
+❌ A) M1 and M2 measure the Pearson correlation between channel intensities
+✅ B) M1 is the fraction of channel 1 signal overlapping channel 2; M2 is the reverse
+❌ C) M1 and M2 together give a p-value for colocalization significance
+❌ D) M1=M2=1 means the two channels are anti-correlated
+
+Explanation: Manders' coefficients are overlap fractions, not correlations. M1 = (Ch1 intensity where Ch2 > threshold) / (total Ch1 intensity). It answers: what fraction of protein A signal is found where protein B is present? M1 and M2 are asymmetric — A mostly with B (M1≈1) while B mostly elsewhere (M2≈0.1). Always apply intensity thresholds (Costes' method) before computing Manders'.
+
+
+7. FEDERICO [TA]
+Reward: Laser Launch
+
+Greeting:
+
+Ciao! I'm Federico, TA and Python enthusiast. Light sheet is my passion. Answer this and I'll hand over the laser launch module!
+
+After completing:
+
+Perfetto! Light sheet is beautiful, no?
+
+Question: In light sheet fluorescence microscopy (LSFM), the illumination and detection objectives are perpendicular. What is the advantage over widefield or confocal?
+
+✅ A) Only the focal plane is illuminated; far less bleaching across the sample volume
+❌ B) Light sheet systems are simpler and less expensive than widefield
+❌ C) The 90-degree geometry eliminates the need for fluorescent labels
+❌ D) Higher lateral resolution than confocal thanks to the thin sheet
+
+Explanation: Selective plane illumination! In widefield and confocal, every Z-plane gets illuminated every time you image. In LSFM, a thin sheet illuminates only the focal plane — everything else stays dark and unbleached. For live imaging of developing embryos or long time-lapses, this reduces total phototoxic dose compared to confocal.
+
+
+8. EVA [TA]
+Reward: Objective Lens
+
+Greeting:
+
+Hi! I'm Eva — I doodle science AND image beautiful cells! Answer my confocal pinhole question to get the objective lens!
+
+After completing:
+
+Good job! A great objective is the heart of any fluorescence microscope.
+
+Airyscan offers up to a root 2 improvement in resolution by incorporating a 32 PMT array detector and pixel reassignment. What is the core idea behind this strategy?
+❌ A) Photons are distributed evenly across all 32 PMTs to maximize their quantum efficiency and normalize signal 
+❌ B) Each PMT's image is deconvolved independently then averaged together
+✅ C) Each PMT's image is shifted toward the center by half its offset from the optical axis, then summed to create the final image
+❌ D) PMTs are weighted by their distance from the optical axis to suppress bleedthrough 
+Explanation: Each PMT in the detector array occupies a slightly different position relative to the optical axis, so it collects light from a slightly different part of the PSF. Shifting each element's image by half its offset before summing reassigns that signal closer to where it actually originated. 
+
+
+
+9. MAX [TA]
+Reward: Condenser
+
+Greeting:
+
+Hallo! I'm Max. Tell me what the condenser aperture diaphragm is for and I'll hand over the condenser!
+
+After completing:
+
+Sehr gut! The condenser aperture is often overlooked but critical for widefield microscopy.
+
+Question: What does the condenser aperture diaphragm primarily control in a widefield fluorescence microscope?
+
+❌ A) The field of view; closing it crops the visible area
+✅ B) The illumination NA, affecting resolution, contrast and depth of field
+❌ C) Focus on it to achieve Koehler illumination.
+❌ D) The working distance of the objective
+
+Explanation: The condenser aperture controls the illumination NA. Opening it increases the cone angle of illuminating light — improving lateral resolution but reducing contrast. Closing it increases contrast and depth of field but sacrifices resolution. It is NOT the same as the field diaphragm, which controls the illuminated area.
+
+
+10. ESTEBAN [TA]
+Reward: Filter Cube
+
+Greeting:
+
+¡Hola! I'm Esteban. Answer my ML question and I'll give you this fluorescence cube!
+
+After completing:
+
+¡Excelente! Never trust a single accuracy number. Always check precision and recall!
+
+Question: You train a U-Net classifier to detect mitotic cells. Your model achieves 95% accuracy on a dataset where only 2% of cells are mitotic. What statement is true?
+
+❌ A) Neural networks are imprecise and should not be used for cell classification
+✅ B) A model predicting 'never mitotic' would score 98%. You need precision/recall or F1
+❌ C) Suspicious. 95% accuracy seems too good for noisy biological data
+❌ D) We are calling true mitotic cells with 95% accuracy. 
+
+Explanation: Class imbalance! When positives are rare (2% of cells mitotic), a trivial model that always predicts negative scores 98% accuracy. Use precision (what fraction of predicted positives are real), recall (what fraction of real positives are found), F1-score, or AUROC. In biology, false negatives and false positives often have very different costs — choose your metric accordingly.
+
+
+11. MATT [TA]
+Reward: Hydrogel Kit
+
+Greeting:
+
+Hey! I'm Matt. Expansion microscopy means physically inflating your cells for super-resolution on a standard scope! Answer this for the hydrogel kit.
+
+After completing:
+
+Excellent! With the right hydrogel, ExM gives super-resolution on any confocal.
+
+Question: In expansion microscopy (ExM), a fixed specimen is embedded in a swellable hydrogel and physically expanded ~4x. What is the benefit?
+
+❌ A) It concentrates fluorophores, making them ~4x brighter
+✅ B) Physical 4x expansion gives ~4x resolution gain on standard confocal
+❌ C) It eliminates the need for fixation and speeds up sample preparation by ~ 4x
+❌ D) It expands the number of different fluorescent labels one can use by ~4x
+
+Explanation: Physical magnification = optical resolution gain! Standard confocal resolution is ~250nm. After 4x expansion, structures originally 60-70nm apart become ~250nm apart — resolvable by a standard objective. Genuine super-resolution through sample chemistry, not optics — accessible on any confocal without specialised lasers or detectors.
+
+
+12. LOUISE [VENDOR]
+Reward: TIRF module
+
+Greeting:
+
+Hi! I'm Louise from Leica Microsystems. Answer my question about fluorescence optics and I'll give you the dichroic mirror!
+
+After completing:
+
+Excellent! The dichroic mirror is the unsung hero of every fluorescence microscope.
+
+Question: TIRF illuminates only a ~100nm evanescent field at the coverslip. Its advantage over other techniques is?
+
+❌ A) Better lateral resolution than widefield
+❌ B) Better axial resolution than confocal
+✅ C) Removes out-of-focus light 
+❌ D) Allows imaging deeper into tissue than confocal
+
+Explanation: Evanescent field restriction! Only fluorophores within ~100nm of the coverslip are excited. Organelles and nuclei deeper in the cell are simply not illuminated, eliminating out-of-focus haze for imaging membrane dynamics and vesicle fusion.
+
+
+13. GUSTAVO [VENDOR]
+Reward: Confocal Scanner
+
+Greeting:
+
+Hi! I'm Gustavo from Leica. Impress me and I'll hand over another microscope part!
+
+After completing:
+
+Great! Confocal opens a whole new world of optical sectioning.
+
+Question: In a point-scanning confocal, what is the function of the pinhole?
+
+✅ A) Rejects out-of-focus light giving optical sectioning
+❌ B) Selects which emission wavelengths reach the detector
+❌ C) Determines the pixel clock of the PMT
+❌ D) Attenuates the focused illumination on the sample
+
+Explanation: The pinhole is the heart of confocal! It is positioned in a conjugate plane to the focal point. Only light from the focal point passes through to the detector, while out-of-focus light is physically blocked. 
+
+
+
+14. STEVE [VENDOR]
+Reward: Piezo Z Stage
+
+Greeting:
+
+Hey! I'm Steve from Applied Scientific Instrumentation. Answer this and the piezo Z stage is yours!
+
+After completing:
+
+Great! Sub-micron Z control opens up so much in quantitative 3D imaging.
+
+Question: You're doing a 3D z-stack with a 60x/1.4 NA objective and want to Nyquist sample in Z. What step size should you use?
+
+❌ A) The same as your XY pixel size for isotropic sampling
+✅ B) < 300 nm. 2 to 3 times smaller than the axial resolution
+❌ C) 1 µm to be reproducible across systems
+❌ D) As small as possible to increase resolution
+
+Explanation: Nyquist in Z! Axial resolution for a 1.4 NA confocal at 510nm is roughly 500-600nm. Your z-step must be ≤ half that, so ~250-300nm. Larger steps miss axial features; much smaller steps over-bleach without gaining information. Piezo stages are essential for reproducible sub-micron Z steps in quantitative 3D imaging.
+
+
+15. XANDER [VENDOR]
+Reward: Motorized XY Stage
+
+Greeting:
+
+Hi! I'm Xander from ASI. Answer this for the motorized XY stage!
+
+After completing:
+
+Nice! Automated stage control is the backbone of high-throughput microscopy.
+
+Question: You're acquiring a tiled image (10x10 grid) of a large tissue section and notice intensity differences at tile edges. What is the most likely cause?
+
+✅ A) Uneven illumination across the field of view
+❌ B) Photobleaching around the edges
+❌ C) The motorized stage is introducing z-drift
+❌ D) The laser power is fluctuating between acquisitions
+
+Explanation: Vignetting! Most objectives illuminate the centre brighter than the edges. In tiled images this creates visible seams at boundaries. The fix: acquire a flat-field correction image, such as a Model’s flatfield slide, and divide each tile by it before stitching. Essential for any quantitative tiled acquisition.
+
+
+16. LARA [VENDOR]
+Reward: Stage-top Incubator
+
+Greeting:
+
+Hi! I'm Lara from Okolab. Answer this and the incubator is yours!
+
+After completing:
+
+Awesome! Happy cells make better images.
+
+Question: Your lab switches from a bicarbonate-buffered medium to HEPES-buffered medium for a live-cell experiment. What does this change about your environmental control requirements at the stage?
+✅ A) You no longer need CO₂ control. HEPES buffers pH independently of CO₂
+❌ B) You need more CO₂ to compensate for HEPES's lower buffering capacity
+❌ C) HEPES requires higher temperature (39°C) to buffer effectively
+❌ D) CO₂ is required to maintain the appropriate osmolarity
+
+
+Explanation: Standard bicarbonate-buffered media maintain pH only in equilibrium with ~5% CO₂ — disrupt that and pH drifts fast. HEPES is a zwitterionic organic buffer that holds pH independently of CO₂, making it ideal for open-stage imaging. The tradeoff is that it's not great for long-term culture, so it's best reserved for shorter sessions. Temperature control remains essential either way.
+
+
+17. JONATHAN [VENDOR]
+Reward: Emission Filter Wheel
+
+Greeting:
+
+Hi! I'm Jonathan from Evident Scientific — formerly Olympus. Let me test your optics knowledge for this emission filter wheel!
+
+After completing:
+
+Excellent! Good filter selection is the difference between a clean image and a mess of bleedthrough.
+
+Question: You want to image three fluorophores simultaneously: DAPI, GFP, and mCherry. What is a critical consideration when selecting emission filters?
+
+❌ A) Choose the widest bandpass filters possible to maximize signal
+✅ B) Ensure emission filters are narrow enough to minimize spectral bleedthrough 
+❌ C) Always use longpass filters to collect more total photons
+❌ D) Filter choice doesn't matter if laser power is low enough
+
+Explanation: Spectral bleedthrough is the enemy of quantitative multichannel imaging! DAPI, GFP, and mCherry have overlapping emission tails, so narrow bandpass filters centred on each peak are essential to minimize bleedthrough. Wider filters collect more photons but also more emission from neighbouring fluorophores.
+
+
+
+
+greet:"Hi! I'm Erika Wee, director of the CSHL Microscopy Core Facility. We run widefield, confocal, spinning disk, SIM, and EM — the works. Answer my phase contrast question and I'll give you this LED light source!",
+    greetDone:"Excellent! Phase contrast and DIC are underappreciated workhorses — every cell biologist should know when to use which.",
+    riddle:{
+      q:"A researcher wants to image live, unstained HeLa cells to check cell health before an experiment. They ask you whether to use phase contrast or DIC. What is an important practical consideration?",
+      opts:[
+        {t:"A) DIC is incompatible with plastic dishes but phase contrast would work fine",c:true},
+        {t:"B) Phase contrast produces better axial resolution than DIC for thick samples",c:false},
+        {t:"C) DIC cannot image cells without fluorescent labels",c:false},
+        {t:"D) Phase contrast requires a laser source; DIC works with any white light",c:false},
+      ],
+
