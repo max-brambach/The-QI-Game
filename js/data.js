@@ -331,11 +331,11 @@ const NPCS = [
     }
   },
   {
-    id:'xander', firstName:'Xander', name:'Xander @ ASI',
+    id:'zander', firstName:'Zander', name:'Zander @ ASI',
     role:'vendor', partId:'xystage',
     x:31, y:13,
     hair:'#4a4a4a', skin:'#D8B890', shirt:'#2244aa', coat:false,
-    greet:"Hi! I'm Xander from ASI. Answer this for the motorized XY stage!",
+    greet:"Hi! I'm Zander from ASI. Answer this for the motorized XY stage!",
     greetDone:"Nice! Automated stage control is the backbone of high-throughput microscopy.",
     riddle:{
       q:"You're acquiring a tiled image (10x10 grid) of a large tissue section and notice intensity differences at tile edges. What is the most likely cause?",

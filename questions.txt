@@ -325,12 +325,12 @@ Question: You're doing a 3D z-stack with a 60x/1.4 NA objective and want to Nyqu
 Explanation: Nyquist in Z! Axial resolution for a 1.4 NA confocal at 510nm is roughly 500-600nm. Your z-step must be ≤ half that, so ~250-300nm. Larger steps miss axial features; much smaller steps over-bleach without gaining information. Piezo stages are essential for reproducible sub-micron Z steps in quantitative 3D imaging.
 
 
-15. XANDER [VENDOR]
+15. ZANDER [VENDOR]
 Reward: Motorized XY Stage
 
 Greeting:
 
-Hi! I'm Xander from ASI. Answer this for the motorized XY stage!
+Hi! I'm Zander from ASI. Answer this for the motorized XY stage!
 
 After completing:
 
